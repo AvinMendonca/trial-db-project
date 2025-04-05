@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bus Fleet Management System</title>
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- <div class="login-container" id="login">
+      <div class="image">
+        <img src="images/nitte-nmamit-logo.png" alt="logo of college" />
+      </div>
+      <div class="login-header">
+        <div class="logo">B</div>
+        <div>
+          <div class="project-name">BUS FLEET MANAGEMENT SYSTEM</div>
+        </div>
+      </div>
+
+      <input type="text" id="username" placeholder="Username" />
+      <input type="password" id="password" placeholder="Password" />
+      <button onclick="login()">Log in</button>
+    </div>
+
+    <div class="popup" id="popup" style="display: none">
+      Invalid credentials. Please try again.
+    </div> -->
+
+    <div class="container" id="dashboard" style="display: block">
+      <div class="header">
+        <h1>Bus Fleet Management System</h1>
+        <div class="user-actions">
+          <div class="user-info">
+            <span id="logged-in-as"></span>
+            <span id="username-display"></span>
+          </div>
+          <div class="user-profile">
+            <button onclick="toggleDropdown()" class="profile-icon">
+              <i class="fas fa-user-circle"></i>
+            </button>
+            <div id="profile-dropdown" class="dropdown-content">
+              <button onclick="showEditProfile()">Edit Profile</button>
+            </div>
+          </div>
+          <button onclick="logout()" class="logout-btn">Logout</button>
+        </div>
+      </div>
+
+      <div class="top-menu">
+        <button onclick="showStudents()">Students</button>
+        <button onclick="showRoutes()">Routes</button>
+        <button onclick="showBuses()">Buses</button>
+        <button onclick="showDrivers()">Drivers</button>
+        <button onclick="showMaintenanceLogs()">Maintenance Logs</button>
+        <button onclick="showIncidents()">Incidents</button>
+      </div>
+
+      <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Search..." />
+        <button onclick="searchData()">Search</button>
+      </div>
+
+      <div id="content">
+        <div class="section-header">
+          <h2 id="section-title">Students</h2>
+          <div class="section-actions">
+            <button onclick="openAddForm('students')">Add New</button>
+            <button onclick="exportData()">Export</button>
+          </div>
+        </div>
+        <div class="data-container">
+          <p class="no-data">No data available</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="edit-profile-form" style="display: none" class="form-container">
+      <h2>Edit Profile</h2>
+      <form id="profile-form">
+        <div class="form-group">
+          <label for="edit-username">Username</label>
+          <input type="text" id="edit-username" required />
+        </div>
+        <div class="form-group">
+          <label for="edit-name">Full Name</label>
+          <input type="text" id="edit-name" required />
+        </div>
+        <div class="form-group">
+          <label for="edit-email">Email</label>
+          <input type="email" id="edit-email" required />
+        </div>
+        <div class="form-group">
+          <label for="edit-phone">Phone</label>
+          <input type="tel" id="edit-phone" required />
+        </div>
+      </form>
+      <div class="form-buttons">
+        <button onclick="saveProfile()">Save Changes</button>
+        <button onclick="closeEditProfile()">Cancel</button>
+      </div>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>
