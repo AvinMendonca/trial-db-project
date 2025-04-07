@@ -25,11 +25,11 @@
       <input type="text" id="username" placeholder="Username" />
       <input type="password" id="password" placeholder="Password" />
       <button onclick="login()">Log in</button>
-    </div>
+    </div> -->
 
     <div class="popup" id="popup" style="display: none">
       Invalid credentials. Please try again.
-    </div> -->
+    </div>
 
     <div class="container" id="dashboard" style="display: block">
       <div class="header">
@@ -69,7 +69,7 @@
         <div class="section-header">
           <h2 id="section-title">Students</h2>
           <div class="section-actions">
-            <button onclick="openAddForm('students')">Add New</button>
+            <button onclick="addStudentForm()">Add New</button>
             <button onclick="exportData()">Export</button>
           </div>
         </div>
@@ -102,6 +102,32 @@
       <div class="form-buttons">
         <button onclick="saveProfile()">Save Changes</button>
         <button onclick="closeEditProfile()">Cancel</button>
+      </div>
+    </div>
+
+    <div id="add-user-form" style="display: none" class="form-container">
+      <h2>Add student</h2>
+      <form id="profile-form">
+        <div class="form-group">
+          <label for="add-name">Name</label>
+          <input type="text" id="add-name" required />
+        </div>
+        <div class="form-group">
+          <label for="add-grade">Grade</label>
+          <input type="text" id="add-grade" required />
+        </div>
+        <div class="form-group">
+          <label for="add-routeId">Bus Route ID</label>
+          <input type="text" id="add-routeId" required />
+        </div>
+        <div class="form-group">
+          <label for="add-boardingPoint">Boarding Point</label>
+          <input type="text" id="add-boardingPoint" required />
+        </div>
+      </form>
+      <div class="form-buttons">
+        <button onclick="addStudent()" id="add-student">Save Changes</button>
+        <button onclick="closeStudentForm()">Cancel</button>
       </div>
     </div>
 

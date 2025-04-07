@@ -8,10 +8,10 @@ app.use(cors());
 app.use(express.json()); // To parse JSON bodies
 
 const db = mysql.createConnection({
-  host: process.env.DB_HOST,
+  host: "localhost",
   user: "root",
   password: "Iamnerd98#", // change this to your MySQL password
-  database: process.env.DB_NAME, // change this to your database
+  database: "sampledb", // change this to your database
 });
 
 db.connect((err) => {
@@ -86,11 +86,46 @@ app.post("/api/signup", (req, res) => {
   );
 });
 
-app.get("/api/students", (req, res) => {
+app.get("/api/students", async (req, res) => {
   db.query("SELECT * FROM Students", (err, results) => {
     if (err) return res.status(500).json(err);
     res.json(results);
   });
+});
+
+app.post("/api/addstudents", (req, res) => {
+  try {
+    const { Name, Grade, BusRouteID, BoardingPoint } = req.body;
+    console.log(Name, Grade, BusRouteID, BoardingPoint);
+
+    if (!Name || !Grade || !BusRouteID || !BoardingPoint) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    db.query(
+      "SELECT * FROM Students WHERE Name = ?",
+      [Name],
+      (err, results) => {
+        if (err) return res.status(500).json(err);
+
+        if (results.length > 0) {
+          return res.status(400).json({ error: "Student already exists" });
+        }
+
+        db.query(
+          "INSERT INTO Students(Name, Grade, BusRouteId, BoardingPoint) VALUES (?, ?, ?, ?)",
+          [Name, Grade, BusRouteID, BoardingPoint],
+          (err, insertResults) => {
+            if (err) return res.status(500).json(err);
+            res.json({ success: true });
+          }
+        );
+      }
+    );
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "An error occurred" });
+  }
 });
 
 app.get("/api/routes", (req, res) => {

@@ -74,42 +74,42 @@ function searchData() {
   });
 }
 
-function openAddForm(section) {
-  currentSection = section;
-  document.getElementById(
-    "form-title"
-  ).textContent = `Add New ${getSectionTitle(section)}`;
-  document.getElementById("add-form").style.display = "block";
+// function openAddForm(section) {
+//   currentSection = section;
+//   document.getElementById(
+//     "form-title"
+//   ).textContent = `Add New ${getSectionTitle(section)}`;
+//   document.getElementById("add-form").style.display = "block";
 
-  const form = document.getElementById("data-form");
-  form.innerHTML = "";
+//   const form = document.getElementById("data-form");
+//   form.innerHTML = "";
 
-  const formFields = {
-    students: ["Name", "Roll Number", "Course", "Phone"],
-    routes: ["Route ID", "Start Point", "End Point", "Distance"],
-    buses: ["Bus ID", "Model", "Capacity", "Registration"],
-    drivers: ["Driver ID", "Name", "License Number", "Phone"],
-    maintenance: ["Log ID", "Bus ID", "Date", "Description"],
-    incidents: ["Incident ID", "Date", "Description", "Severity"],
-  };
+//   const formFields = {
+//     students: ["Name", "Roll Number", "Course", "Phone"],
+//     routes: ["Route ID", "Start Point", "End Point", "Distance"],
+//     buses: ["Bus ID", "Model", "Capacity", "Registration"],
+//     drivers: ["Driver ID", "Name", "License Number", "Phone"],
+//     maintenance: ["Log ID", "Bus ID", "Date", "Description"],
+//     incidents: ["Incident ID", "Date", "Description", "Severity"],
+//   };
 
-  formFields[section].forEach((field) => {
-    const formGroup = document.createElement("div");
-    formGroup.classList.add("form-group");
+//   formFields[section].forEach((field) => {
+//     const formGroup = document.createElement("div");
+//     formGroup.classList.add("form-group");
 
-    const label = document.createElement("label");
-    label.textContent = field;
+//     const label = document.createElement("label");
+//     label.textContent = field;
 
-    const input = document.createElement("input");
-    input.type = "text";
-    input.name = field.toLowerCase().replace(/\s+/g, "_");
-    input.required = true;
+//     const input = document.createElement("input");
+//     input.type = "text";
+//     input.name = field.toLowerCase().replace(/\s+/g, "_");
+//     input.required = true;
 
-    formGroup.appendChild(label);
-    formGroup.appendChild(input);
-    form.appendChild(formGroup);
-  });
-}
+//     formGroup.appendChild(label);
+//     formGroup.appendChild(input);
+//     form.appendChild(formGroup);
+//   });
+// }
 
 // pushes data into the database
 function saveData() {
@@ -571,4 +571,52 @@ async function showIncidents() {
 const logout = () => {
   localStorage.removeItem("username");
   window.location.href = "../login/login.html";
+};
+
+const addStudentForm = () => {
+  document.getElementById("add-user-form").style.display = "block";
+};
+
+const addStudent = async () => {
+  const name = document.getElementById("add-name").value;
+  const grade = document.getElementById("add-grade").value;
+  const busRouteId = document.getElementById("add-routeId").value;
+  const boardingPoint = document.getElementById("add-boardingPoint").value;
+
+  if (!name || !grade || !busRouteId || !boardingPoint) {
+    showPopup("Please fill in all fields.");
+    return;
+  }
+  try {
+    const response = await fetch("http://localhost:3000/api/addstudents", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        Name: name,
+        Grade: grade,
+        BusRouteID: busRouteId,
+        BoardingPoint: boardingPoint,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Server Error:", errorData);
+      showPopup(`Error: ${errorData.message || "Internal Server Error"}`);
+      return;
+    }
+  } catch (error) {
+    console.error("Network Error:", error);
+    showPopup("Failed to connect to the server. Please try again later.");
+  }
+
+  showPopup("Student added successfully!");
+  closeStudentForm();
+  console.log(name, grade, busRouteId, boardingPoint);
+};
+
+const closeStudentForm = () => {
+  document.getElementById("add-user-form").style.display = "none";
 };
